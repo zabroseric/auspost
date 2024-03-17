@@ -14,10 +14,13 @@
         <members>SObjectUnitOfWork</members>
         <members>IUnitOfWork</members>
         <members>ISObjectUnitOfWork</members>
+        <members>CaseService</members>
+        <members>CaseWorkforcePlanningCalloutTest</members>
+        <members>CaseServiceTest</members>
+        <members>CaseFactory</members>
         <name>ApexClass</name>
     </types>
     <types>
-        <members>CaseTrigger</members>
         <name>ApexTrigger</name>
     </types>
     <version>53.0</version>

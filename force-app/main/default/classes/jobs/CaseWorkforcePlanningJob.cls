@@ -1,9 +1,9 @@
 
-public with sharing class CaseWorkforcePlanningJob implements Database.Batchable<Case>, Database.AllowsCallouts {
+public with sharing class CaseWorkforcePlanningJob implements Schedulable, Database.Batchable<Case>, Database.AllowsCallouts {
 
     private final Set<Id> recordIds;
 
-    public static void executeBatch(Set<Id> recordIds)
+    public void execute(SchedulableContext schedulableContext)
     {
         Database.executeBatch(new CaseWorkforcePlanningJob(recordIds), 10);
     }
@@ -20,10 +20,7 @@ public with sharing class CaseWorkforcePlanningJob implements Database.Batchable
 
     public void execute(Database.BatchableContext batchableContext, List<Case> records)
     {
-        for (Case record : records) {
-            new CaseWorkforcePlanningCallout(case).sync();
-        }
-
+        CaseService.sendToWorkforcePlanning(new Map<Id, Case>(records).keySet());
     }
 
     public void finish(Database.BatchableContext param1)

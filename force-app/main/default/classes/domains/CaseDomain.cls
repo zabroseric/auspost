@@ -4,31 +4,38 @@
 
 public with sharing class CaseDomain {
 
-    private final List<Case> sObjs;
+    private final List<CaseModel> models = new List<CaseModel>();
     private final ISObjectUnitOfWork unitOfWork;
+
+    private CaseDomain(List<Case> models, ISObjectUnitOfWork unitOfWork)
+    {
+        for (Case record : models) {
+            this.models.add(new CaseModel(record));
+        }
+        this.unitOfWork = unitOfWork;
+    }
 
     public static CaseDomain newInstance(List<Case> sObjs, ISObjectUnitOfWork unitOfWork)
     {
         return new CaseDomain(sObjs, unitOfWork);
     }
 
-    private CaseDomain(List<Case> sObjs, ISObjectUnitOfWork unitOfWork)
+    public List<CaseModel> getModels()
     {
-        this.sObjs = sObjs;
-        this.unitOfWork = unitOfWork;
+        return models;
     }
 
-    public void updateSecretKey(String secretKey)
-    {
-        for (Case sObj : this.sObjs) {
-            // TODO: Create field to store the secret key.
-            sObj.Description = secretKey;
+    public class CaseModel {
+        public final Case record { get; private set; }
+
+        public CaseModel(Case record)
+        {
+            this.record = record;
         }
 
-        this.unitOfWork
-    }
-
-    public void doUpdate() {
-        this.unitOfWork.doUpdate(this.sObjs);
+        public void updateSecretKey(String secretKey)
+        {
+            this.record.Description = secretKey;
+        }
     }
 }

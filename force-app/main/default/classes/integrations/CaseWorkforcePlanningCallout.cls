@@ -1,35 +1,51 @@
 
 public class CaseWorkforcePlanningCallout {
 
-    private final Case sObj;
+    private final CaseDomain.CaseModel model;
+    private HttpResponse response;
 
-    public CaseWorkforcePlanningCallout(Case sObj) {
-        this.sObj = sObj;
+    public CaseWorkforcePlanningCallout(CaseDomain.CaseModel model)
+    {
+        this.model = model;
     }
 
-    public String sync() {
+    public void send()
+    {
         HttpRequest request = new HttpRequest();
         request.setEndpoint('https://quiet-ridge-13235-3b829f8a42e5.herokuapp.com/');
         request.setMethod('POST');
         request.setHeader('Content-Type', 'application/json');
         request.setBody(JSON.serialize(new Map<String, Object>{
-            'id' => this.sObj.Id,
-            // TODO: Replace with the account name when the selector supports relationships.
-            'business_name' => this.sObj.AccountId,
-            'agentid' => this.sObj.LastModifiedById
+            'id' => this.model.record.Id,
+            'business_name' => this.model.record.Account_Name__c,
+            'agentid' => this.model.record.OwnerId
         }));
 
+        this.response = new Http().send(request);
 
-        HttpResponse response = new Http().send(request);
-
-        if (Integer.valueOf(response.getStatusCode()/100) == 4) {
-            throw new HttpException('An client error occurred with response of: ' + response.getBody());
-        }
-        if (Integer.valueOf(response.getStatusCode()/100) == 5) {
+        if (Integer.valueOf(response.getStatusCode() / 100) == 5) {
             throw new HttpException('An server error occurred with response of: ' + response.getBody());
         }
+    }
 
-        Map<String, Object> responseObject = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
-        return String.valueOf(responseObject.get('secretKey'));
+    public Map<String, Object> getResponseObject()
+    {
+        if (response == null) {
+            return null;
+        }
+        return (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
+    }
+
+    public Object getResponseObjectValue(String key)
+    {
+        if (response == null) {
+            return null;
+        }
+        return getResponseObject().get(key);
+    }
+
+    public String getResponseSecretKey()
+    {
+        return String.valueOf(getResponseObjectValue('secretKey'));
     }
 }

@@ -1,13 +1,48 @@
 
 public class SObjectUnitOfWork implements ISObjectUnitOfWork {
 
-    public static void doInsert(List<SObject> sObjs)
+    final List<SObject> records = new List<SObject>();
+
+    private SObjectUnitOfWork()
     {
-        Database.insert(sObjs);
+
     }
 
-    public static void doUpdate(List<SObject> sObjs)
+    public static ISObjectUnitOfWork newInstance()
     {
-        Database.update(sObjs);
+        return new SObjectUnitOfWork();
+    }
+
+    public void doStage(List<SObject> records)
+    {
+        records.addAll(records);
+    }
+
+    public void doStage(SObject record)
+    {
+        records.add(record);
+    }
+
+    public void doCommit()
+    {
+        List<SObject> recordsInsert = new List<SObject>();
+        List<SObject> recordsUpdate = new List<SObject>();
+
+        for (SObject record : this.records) {
+            if (record.Id == null) {
+                recordsInsert.add(record);
+            } else {
+                recordsUpdate.add(record);
+            }
+        }
+
+        Savepoint savepoint = Database.setSavepoint();
+        try {
+            Database.insert(recordsInsert);
+            Database.update(recordsUpdate);
+        } catch (Exception e) {
+            Database.rollback(savepoint);
+            throw e;
+        }
     }
 }

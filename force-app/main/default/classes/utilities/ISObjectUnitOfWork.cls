@@ -1,9 +1,9 @@
 
 public interface ISObjectUnitOfWork {
 
-    void commitInsert(List<SObject> sObjs);
-    void commitUpdate(List<SObject> sObjs);
+    ISObjectUnitOfWork newInstance();
 
-    void doInsert(List<SObject> sObjs);
-    void doUpdate(List<SObject> sObjs);
+    void doStage(SObject record);
+    void doStage(List<SObject> records);
+    void doCommit();
 }
