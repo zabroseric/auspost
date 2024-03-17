@@ -1,21 +1,23 @@
 
 public with sharing class CaseWorkforcePlanningJob implements Schedulable, Database.Batchable<Case>, Database.AllowsCallouts {
 
-    private final Set<Id> recordIds;
+    private final ISObjectSelector sObjectSelector;
 
     public void execute(SchedulableContext schedulableContext)
     {
-        Database.executeBatch(new CaseWorkforcePlanningJob(recordIds), 10);
+        Database.executeBatch(new CaseWorkforcePlanningJob(sObjectSelector != null ? sObjectSelector : new CaseSelector()), 10);
     }
 
-    private CaseWorkforcePlanningJob(Set<Id> recordIds)
+    @TestVisible
+    private CaseWorkforcePlanningJob(ISObjectSelector sObjectSelector)
     {
-        this.recordIds = recordIds;
+        this.sObjectSelector = sObjectSelector;
     }
 
     public List<Case> start(Database.BatchableContext batchableContext)
     {
-        return new CaseSelector().selectByIds(recordIds);
+        // TODO: Should be replaced with a query that selects records that should be queried.
+        return this.sObjectSelector.selectByIds(new Set<Id>());
     }
 
     public void execute(Database.BatchableContext batchableContext, List<Case> records)

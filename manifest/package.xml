@@ -18,6 +18,8 @@
         <members>CaseWorkforcePlanningCalloutTest</members>
         <members>CaseServiceTest</members>
         <members>CaseFactory</members>
+        <members>CaseDomainTest</members>
+        <members>CaseWorkforcePlanningJobTest</members>
         <name>ApexClass</name>
     </types>
     <types>
