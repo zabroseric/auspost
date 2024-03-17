@@ -14,6 +14,7 @@ private class CaseServiceTest {
 
         System.assertEquals(CaseFactory.getRecords().size(), unitOfWorkNone.records.size());
         System.assertEquals(CaseFactory.getRecords().size(), unitOfWorkNone.recordsCommitted.size());
+        System.assertEquals(CaseFactory.getRecords().size(), unitOfWorkNone.countRecordsCommittedWithAgentId());
     }
 
     @IsTest
@@ -28,6 +29,7 @@ private class CaseServiceTest {
 
         System.assertEquals(CaseFactory.getRecords().size() - 1, unitOfWorkNone.records.size());
         System.assertEquals(CaseFactory.getRecords().size() - 1, unitOfWorkNone.recordsCommitted.size());
+        System.assertEquals(CaseFactory.getRecords().size() - 1, unitOfWorkNone.countRecordsCommittedWithAgentId());
     }
 
     @IsTest
@@ -42,6 +44,7 @@ private class CaseServiceTest {
 
         System.assertEquals(0, unitOfWorkNone.records.size());
         System.assertEquals(0, unitOfWorkNone.recordsCommitted.size());
+        System.assertEquals(0, unitOfWorkNone.countRecordsCommittedWithAgentId());
     }
 
     private class SObjectUnitOfWorkNone implements ISObjectUnitOfWork {
@@ -67,6 +70,17 @@ private class CaseServiceTest {
         public void doCommit()
         {
             recordsCommitted.addAll(records);
+        }
+
+        public Integer countRecordsCommittedWithAgentId()
+        {
+            Integer count = 0;
+            for (SObject record: records) {
+                if (((Case) record).Description == 'secret key') {
+                    count++;
+                }
+            }
+            return count;
         }
     }
 
