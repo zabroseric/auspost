@@ -12,7 +12,7 @@ public class CaseWorkforcePlanningCallout {
     public void send()
     {
         HttpRequest request = new HttpRequest();
-        request.setEndpoint('https://quiet-ridge-13235-3b829f8a42e5.herokuapp.com/');
+        request.setEndpoint('callout:Workforce_Planning');
         request.setMethod('POST');
         request.setHeader('Content-Type', 'application/json');
         request.setBody(JSON.serialize(new Map<String, Object>{
