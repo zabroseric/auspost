@@ -10,16 +10,17 @@ public with sharing class CaseService {
     public static void sendToWorkforcePlanning(Set<Id> recordIds)
     {
         CaseDomain caseDomain = CaseDomain.newInstance(caseSelector.selectByIds(recordIds), unitOfWork);
-        for (CaseDomain.CaseModel model : caseDomain.getModels()) {
+
+        for (Case record : caseDomain.getRecords()) {
             try {
-                CaseWorkforcePlanningCallout workforcePlanningCallout = new CaseWorkforcePlanningCallout(model);
+                CaseWorkforcePlanningCallout workforcePlanningCallout = new CaseWorkforcePlanningCallout(record);
                 workforcePlanningCallout.send();
-                model.updateSecretKey(workforcePlanningCallout.getResponseSecretKey());
-                unitOfWork.doStage(model.record);
+                caseDomain.updateSecretKey(record.Id, workforcePlanningCallout.getResponseSecretKey());
             } catch (Exception e) {
                 System.debug(LoggingLevel.ERROR, e.getMessage());
             }
         }
+
         unitOfWork.doCommit();
     }
 }

@@ -15,18 +15,4 @@ public class CaseFactory {
             new Case(Account_Name__c = 'Acc 3', OwnerId = '005000000000000003')
         };
     }
-
-    public static CaseDomain.CaseModel getModel()
-    {
-        return getModels().get(0);
-    }
-
-    public static List<CaseDomain.CaseModel> getModels()
-    {
-        List<CaseDomain.CaseModel> models = new List<CaseDomain.CaseModel>();
-        for (Case record : getRecords()) {
-            models.add(new CaseDomain.CaseModel(record));
-        }
-        return models;
-    }
 }

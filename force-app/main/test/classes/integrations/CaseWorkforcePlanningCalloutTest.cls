@@ -6,7 +6,7 @@ public class CaseWorkforcePlanningCalloutTest {
     static void shouldReturnValidResponseObject()
     {
         Test.setMock(HttpCalloutMock.class, new WorkforcePlanningHttpSuccessMock());
-        CaseWorkforcePlanningCallout workforcePlanningCallout = new CaseWorkforcePlanningCallout(CaseFactory.getModel());
+        CaseWorkforcePlanningCallout workforcePlanningCallout = new CaseWorkforcePlanningCallout(CaseFactory.getRecord());
         workforcePlanningCallout.send();
 
         System.assertEquals(workforcePlanningCallout.getResponseObject(), new Map<String, Object>{
@@ -19,7 +19,7 @@ public class CaseWorkforcePlanningCalloutTest {
     static void shouldReturnValidResponseValues()
     {
         Test.setMock(HttpCalloutMock.class, new WorkforcePlanningHttpSuccessMock());
-        CaseWorkforcePlanningCallout workforcePlanningCallout = new CaseWorkforcePlanningCallout(CaseFactory.getModel());
+        CaseWorkforcePlanningCallout workforcePlanningCallout = new CaseWorkforcePlanningCallout(CaseFactory.getRecord());
         workforcePlanningCallout.send();
 
         System.assertEquals(workforcePlanningCallout.getResponseObjectValue('success'), true);
@@ -30,7 +30,7 @@ public class CaseWorkforcePlanningCalloutTest {
     static void shouldReturnValidResponseSecretKey()
     {
         Test.setMock(HttpCalloutMock.class, new WorkforcePlanningHttpSuccessMock());
-        CaseWorkforcePlanningCallout workforcePlanningCallout = new CaseWorkforcePlanningCallout(CaseFactory.getModel());
+        CaseWorkforcePlanningCallout workforcePlanningCallout = new CaseWorkforcePlanningCallout(CaseFactory.getRecord());
         workforcePlanningCallout.send();
 
         System.assertEquals(workforcePlanningCallout.getResponseSecretKey(), 'secret key');
@@ -40,7 +40,7 @@ public class CaseWorkforcePlanningCalloutTest {
     static void shouldThrowAnExceptionWithServer500()
     {
         Test.setMock(HttpCalloutMock.class, new WorkforcePlanningHttpServerErrorMock());
-        CaseWorkforcePlanningCallout workforcePlanningCallout = new CaseWorkforcePlanningCallout(CaseFactory.getModel());
+        CaseWorkforcePlanningCallout workforcePlanningCallout = new CaseWorkforcePlanningCallout(CaseFactory.getRecord());
 
         try {
             workforcePlanningCallout.send();
@@ -56,7 +56,7 @@ public class CaseWorkforcePlanningCalloutTest {
     static void shouldReturnValidResponseObjectWithServer500()
     {
         Test.setMock(HttpCalloutMock.class, new WorkforcePlanningHttpServerErrorMock());
-        CaseWorkforcePlanningCallout workforcePlanningCallout = new CaseWorkforcePlanningCallout(CaseFactory.getModel());
+        CaseWorkforcePlanningCallout workforcePlanningCallout = new CaseWorkforcePlanningCallout(CaseFactory.getRecord());
 
         try {
             workforcePlanningCallout.send();
@@ -73,7 +73,7 @@ public class CaseWorkforcePlanningCalloutTest {
     static void shouldReturnValidResponseObjectValuesWithServer500()
     {
         Test.setMock(HttpCalloutMock.class, new WorkforcePlanningHttpServerErrorMock());
-        CaseWorkforcePlanningCallout workforcePlanningCallout = new CaseWorkforcePlanningCallout(CaseFactory.getModel());
+        CaseWorkforcePlanningCallout workforcePlanningCallout = new CaseWorkforcePlanningCallout(CaseFactory.getRecord());
 
         try {
             workforcePlanningCallout.send();
@@ -88,7 +88,7 @@ public class CaseWorkforcePlanningCalloutTest {
     static void shouldReturnValidResponseSecretKeyWithServer500()
     {
         Test.setMock(HttpCalloutMock.class, new WorkforcePlanningHttpServerErrorMock());
-        CaseWorkforcePlanningCallout workforcePlanningCallout = new CaseWorkforcePlanningCallout(CaseFactory.getModel());
+        CaseWorkforcePlanningCallout workforcePlanningCallout = new CaseWorkforcePlanningCallout(CaseFactory.getRecord());
 
         try {
             workforcePlanningCallout.send();
@@ -101,14 +101,14 @@ public class CaseWorkforcePlanningCalloutTest {
     @IsTest
     static void shouldReturnValidResponseWithoutSend()
     {
-        CaseWorkforcePlanningCallout workforcePlanningCallout = new CaseWorkforcePlanningCallout(CaseFactory.getModel());
+        CaseWorkforcePlanningCallout workforcePlanningCallout = new CaseWorkforcePlanningCallout(CaseFactory.getRecord());
         System.assertEquals(workforcePlanningCallout.getResponseObject(), null);
     }
 
     @IsTest
     static void shouldReturnValidResponseSecretKeyWithoutSend()
     {
-        CaseWorkforcePlanningCallout workforcePlanningCallout = new CaseWorkforcePlanningCallout(CaseFactory.getModel());
+        CaseWorkforcePlanningCallout workforcePlanningCallout = new CaseWorkforcePlanningCallout(CaseFactory.getRecord());
         System.assertEquals(workforcePlanningCallout.getResponseSecretKey(), null);
     }
 

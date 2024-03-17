@@ -1,12 +1,12 @@
 
 public class CaseWorkforcePlanningCallout {
 
-    private final CaseDomain.CaseModel model;
+    private final Case record;
     private HttpResponse response;
 
-    public CaseWorkforcePlanningCallout(CaseDomain.CaseModel model)
+    public CaseWorkforcePlanningCallout(Case record)
     {
-        this.model = model;
+        this.record = record;
     }
 
     public void send()
@@ -16,9 +16,9 @@ public class CaseWorkforcePlanningCallout {
         request.setMethod('POST');
         request.setHeader('Content-Type', 'application/json');
         request.setBody(JSON.serialize(new Map<String, Object>{
-            'id' => this.model.record.Id,
-            'business_name' => this.model.record.Account_Name__c,
-            'agentid' => this.model.record.OwnerId
+            'id' => this.record.Id,
+            'business_name' => this.record.Account_Name__c,
+            'agentid' => this.record.OwnerId
         }));
 
         this.response = new Http().send(request);
