@@ -10,7 +10,8 @@ public class CaseSelector extends SObjectSelector {
     {
         return new List<Schema.SObjectField> {
             Case.Id,
-            Case.AccountId
+            Case.Account_Name__c,
+            Case.OwnerId
         };
     }
 
