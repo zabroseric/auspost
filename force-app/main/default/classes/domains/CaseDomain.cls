@@ -15,9 +15,9 @@ public with sharing class CaseDomain {
         this.unitOfWork = unitOfWork;
     }
 
-    public static CaseDomain newInstance(List<Case> sObjs, ISObjectUnitOfWork unitOfWork)
+    public static CaseDomain newInstance(List<Case> records, ISObjectUnitOfWork unitOfWork)
     {
-        return new CaseDomain(sObjs, unitOfWork);
+        return new CaseDomain(records, unitOfWork);
     }
 
     public List<CaseModel> getModels()
